@@ -9,6 +9,14 @@ def test_init():
     assert tensor_extension.owner is not None
 
 
+def test_set_item():
+    hook = syft.TorchHook(torch, verbose=True)
+    t = torch.zeros((2, 3), dtype=torch.float)
+    indices = torch.tensor([[True, False, True], [False, True, False]])
+    t[indices] = 1
+    assert t.equal(torch.tensor([[1, 0, 1], [0, 1, 0]], dtype=torch.float))
+
+
 def test_decrypt_mpc(workers):
     alice = workers.get("alice")
     bob = workers.get("bob")
